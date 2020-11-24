@@ -28,46 +28,56 @@ for i in range(8):
 print("End for")
 #print(arrZ_unique)
 
+#We derive the probability dividing each numbers in arrZ_unique[i] by the total repetitions (80000)
+for i in range (128):
+    arrZ_unique[i]=arrZ_unique[i]/(10000*8)
 
-fig1 = plt.figure(2)
-plt.plot(arrZ_unique, 'ro')
+#We derive the probability dividing each numbers in arrZ[i][j] and in arrY[i][j] by the total repetitions (10000)
+for i in range(8):
+    for j in range(128):
+        arrZ[i][j] = arrZ[i][j]/10000
+        arrY[i][j] = arrY[i][j]/10000
+
+fig1 = plt.figure(1)
+plt.plot(arrZ_unique, 'ro', markersize=8)
 plt.xlabel('z')
-plt.ylabel('numbers of times')
-fig1.suptitle('z')
+plt.ylabel('p(z)')
+fig1.suptitle('pmd of z')
 plt.xlim([0,128])
-plt.ylim([0,10000])
+plt.ylim([0,0.1])
 #plt.show()
 
 fig, axs = plt.subplots(4, 2)
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.3, hspace=1.1)
 
-axs[0, 0].plot(arrZ[0], 'ro')
-axs[0, 0].set_title('z | u=000')
+axs[0, 0].plot(arrZ[0], 'ro', markersize=2)
+axs[0, 0].set_title('P(z | u=000)')
 
-axs[0, 1].plot(arrZ[1], 'bo')
-axs[0, 1].set_title('z | u=001')
+axs[0, 1].plot(arrZ[1], 'bo', markersize=2)
+axs[0, 1].set_title('P(z | u=001)')
 
-axs[1, 0].plot(arrZ[2], 'go')
-axs[1, 0].set_title('z | u=010')
+axs[1, 0].plot(arrZ[2], 'go', markersize=2)
+axs[1, 0].set_title('P(z | u=010)')
 
-axs[1, 1].plot(arrZ[3], 'co')
-axs[1, 1].set_title('z | u=011')
+axs[1, 1].plot(arrZ[3], 'co', markersize=2)
+axs[1, 1].set_title('P(z | u=011)')
 
-axs[2, 0].plot(arrZ[4], 'ko')
-axs[2, 0].set_title('z | u=100')
+axs[2, 0].plot(arrZ[4], 'ko', markersize=2)
+axs[2, 0].set_title('P(z | u=100)')
 
-axs[2, 1].plot(arrZ[5], 'mo')
-axs[2, 1].set_title('z | u=101')
+axs[2, 1].plot(arrZ[5], 'mo', markersize=2)
+axs[2, 1].set_title('P(z | u=101)')
 
-axs[3, 0].plot(arrZ[6], 'yo')
-axs[3, 0].set_title('z | u=110')
+axs[3, 0].plot(arrZ[6], 'yo', markersize=2)
+axs[3, 0].set_title('P(z | u=110)')
 
-axs[3, 1].plot(arrZ[7], 'ro')
-axs[3, 1].set_title('z | u=111')
+axs[3, 1].plot(arrZ[7], 'ro', markersize=2)
+axs[3, 1].set_title('P(z | u=111)')
 
 for i in range(4):
     for j in range(2):
         axs[i, j].set_xlim(0,128)
-        axs[i, j].set_ylim(0,400)
+        axs[i, j].set_ylim(0,0.08)
 
 plt.show()
 
