@@ -39,9 +39,10 @@ if __name__ == '__main__':
     epsilon_arr = [0,0.1,0.15,0.18,0.2,0.26,0.3,0.35,0.4,0.45,0.5,0.53,0.6,0.67,0.7,0.73,0.82,0.9,0.95,1] # long: 20
     delta_arr = epsilon_arr
 
-    iter = 1000
+    iter = 5000
     prob_correct = [0]*len(epsilon_arr) # array which will contain the probability the legitimate word is well decrypted using iter iterations
     prob_eaves = [0]*len(epsilon_arr)
+    mut_inf_delta = [0]*len(epsilon_arr)
     #print('Input :',word,' <---> epsilon :',epsilon,' <---> delta :',delta)
     correct_leg = 0
     correct_eav = 0
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     for i in range(0,len(epsilon_arr)):
         epsilon = epsilon_arr[i]
         delta = delta_arr[i]
-        word = word_arr[np.random.randint( low=0, high=len(word_arr))]
+        word =  word_arr[np.random.randint( low=0, high=len(word_arr))]
         for j in range(iter):
             enc_word = rand_binning_enc(word)
             #print('[+] Encoded word :',enc_word)
@@ -71,21 +72,39 @@ if __name__ == '__main__':
                 correct_eav += 1
             #if (word == '110') and (dec_eav == '001'):
             #    count_pair += 1
-            if not((word,dec_eav) in pair):
-                pair[(word,dec_eav)] = 1
+            if not((word,eave_word) in pair):
+                pair[(word,eave_word)] = 1
             else :
-                pair[(word,dec_eav)]+=1
+                pair[(word,eave_word)]+=1
         prob_correct[i] = correct_leg/iter
         prob_eaves[i] = correct_eav/iter
         pair_arr[i] = count_pair
         correct_leg = 0
         correct_eav = 0
+        mutual_inf_uz = 0
+        for p in pair :
+            #print(p)
+            if pair[p]!= 0:
+                joint_prob = pair[p]/(iter*len(epsilon_arr))
+                #print('joint :',joint_prob)
+                log = math.log(joint_prob*128,2) #pu(u)=pz(z)=1/8
+                tmp = joint_prob*log
+                mutual_inf_uz += tmp
+        mut_inf_delta[i] = mutual_inf_uz
+        # !!!!!!!!!! TODO: do i have to reset values in pair?   !!!!!!!!!!
+        for p in pair:
+            pair[p]=0
+
+        #print(pair,'\n----------------------------------')
         #count_pair = 0
 
-    print('Probability correct legitimate :',prob_correct)
-    #print(len(pair))
-    print(pair)
+    print('mut_inf_delta :',mut_inf_delta)
 
+    #print('Probability correct legitimate :',prob_correct)
+    #print('Probability correct eavesdropper :',prob_eaves)
+    #print(len(pair))
+    #print(pair)
+    '''
     #Calculating I(u;z)
     mutual_inf_uz = 0
     for p in pair :
@@ -94,18 +113,27 @@ if __name__ == '__main__':
         log = math.log(joint_prob*64,2) #pu(u)=pz(z)=1/8
         tmp = joint_prob*log
         mutual_inf_uz += tmp
-
-    print(mutual_inf_uz)
+    '''
+    #print(mutual_inf_uz)
     #print('Pair times :',pair_arr)
     #total_times_pair = 0
     #for i in pair_arr:
     #    total_times_pair+= i
     #joint_prob = total_times_pair/(iter*len(epsilon_arr))
     #print('\nJoint probability u, z :',joint_prob)
+    '''
+    # >>>>> point 2.3.4 <<<<<<
     #plot probability correctness varying epsilon
     fig = plt.figure()
     plt.scatter(epsilon_arr,prob_correct)
     plt.xlabel('Epsilon')
     plt.ylabel('Correctness')
     fig.suptitle('Correctness legtimate decryption varying epsilon')
-    #plt.show()
+    plt.show()
+    '''
+    fig = plt.figure()
+    plt.scatter(delta_arr,mut_inf_delta)
+    plt.xlabel('Delta')
+    plt.ylabel('Mutual information')
+    fig.suptitle('Mutual information as function of delta')
+    plt.show()
