@@ -65,27 +65,35 @@ fig, axs = plt.subplots(4, 2)
 plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.3, hspace=1.1)
 
 axs[0, 0].plot(arrZ[0], 'ro', markersize=2)
+axs[0, 0].set_xlabel('z')
 axs[0, 0].set_title('P(z | u=000)')
 
 axs[0, 1].plot(arrZ[1], 'bo', markersize=2)
+axs[0, 1].set_xlabel('z')
 axs[0, 1].set_title('P(z | u=001)')
 
 axs[1, 0].plot(arrZ[2], 'go', markersize=2)
+axs[1, 0].set_xlabel('z')
 axs[1, 0].set_title('P(z | u=010)')
 
 axs[1, 1].plot(arrZ[3], 'co', markersize=2)
+axs[1, 1].set_xlabel('z')
 axs[1, 1].set_title('P(z | u=011)')
 
 axs[2, 0].plot(arrZ[4], 'ko', markersize=2)
+axs[2, 0].set_xlabel('z')
 axs[2, 0].set_title('P(z | u=100)')
 
 axs[2, 1].plot(arrZ[5], 'mo', markersize=2)
+axs[2, 1].set_xlabel('z')
 axs[2, 1].set_title('P(z | u=101)')
 
 axs[3, 0].plot(arrZ[6], 'yo', markersize=2)
+axs[3, 0].set_xlabel('z')
 axs[3, 0].set_title('P(z | u=110)')
 
 axs[3, 1].plot(arrZ[7], 'ro', markersize=2)
+axs[3, 1].set_xlabel('z')
 axs[3, 1].set_title('P(z | u=111)')
 
 for i in range(4):
@@ -93,7 +101,7 @@ for i in range(4):
         axs[i, j].set_xlim(0,code_word_space)
         axs[i, j].set_ylim(0,0.08)
 
-plt.show()
+#plt.show()
 
 
 # Calculation of the joint probability based on the dict defined above
@@ -123,4 +131,6 @@ for u in range(message_space) :
         Iuz += joint_probability[f"{u,z}"] * math.log2(joint_probability[f"{u,z}"] /(prob_u * prob_z))
 
 print(f"The mutual information is : {Iuz}")
+
+plt.show()
 
