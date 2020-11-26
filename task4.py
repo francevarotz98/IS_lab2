@@ -39,7 +39,7 @@ for i in range(message_space):
         arrZ_unique[z] +=1
         joint_probability[f"{i,z}"] += 1
 
-print("End for")
+#print("End for")
 #print(arrZ_unique)
 
 #We derive the probability dividing each numbers in arrZ_unique[i] by the total repetitions (80000)
